@@ -11,8 +11,6 @@ def twilio_resp():
                       '9FzxEwftrpRz3bSwyNa3')
     oncall = pduty.find_oncall('PUIIRST')['entries'][0]['user']
     oncall_contact = pduty.find_user_contact(oncall['id'])['contact_method']
-    print oncall_contact
-
 
     phone = '+%s %s' % (oncall_contact['country_code'],
                        ''.join(map(lambda x: '%s ' % x, oncall_contact['phone_number'])))
