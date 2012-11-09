@@ -3,13 +3,14 @@ from pagerduty import Pagerduty
 from flask import Flask
 import twilio.twiml
 
+import settings
+
 app = Flask(__name__)
 
 @app.route('/twilio', methods=['GET', 'POST'])
 def twilio_resp():
-    pduty = Pagerduty('https://mrfriday.pagerduty.com/api/v1',
-                      '9FzxEwftrpRz3bSwyNa3')
-    oncall = pduty.find_oncall('PUIIRST')['entries'][0]['user']
+    pduty = Pagerduty(settings.PAGERDUTY_API_URL, settings.PAGERDUTY_API_KEY)
+    oncall = pduty.find_oncall(settings.PAGERDUTY_SCHEDULE_ID)['entries'][0]['user']
     oncall_contact = pduty.find_user_contact(oncall['id'])['contact_method']
 
     phone = '+%s %s' % (oncall_contact['country_code'],
@@ -19,6 +20,6 @@ def twilio_resp():
     return str(resp)
 
 if __name__ == '__main__':
-    app.debug = True
+    app.debug = settings.DEBUG
     app.run(host='0.0.0.0')
     

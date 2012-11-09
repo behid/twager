@@ -3,9 +3,6 @@ from datetime import date
 
 import requests
 
-API_URL = 'https://mrfriday.pagerduty.com/api/v1'
-API_KEY = '9FzxEwftrpRz3bSwyNa3'
-
 class Pagerduty(object):
     def __init__(self, API_URL, API_KEY):
         self.API_URL = API_URL
