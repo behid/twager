@@ -13,10 +13,10 @@ def twilio_resp():
     oncall = pduty.find_oncall(settings.PAGERDUTY_SCHEDULE_ID)['entries'][0]['user']
     oncall_contact = pduty.find_user_contact(oncall['id'])['contact_method']
 
-    phone = '+%s %s' % (oncall_contact['country_code'],
-                       ''.join(map(lambda x: '%s ' % x, oncall_contact['phone_number'])))
+    phone = '+%s%s' % (oncall_contact['country_code'], 
+                       oncall_contact['phone_number'])
     resp = twilio.twiml.Response()
-    resp.say('On call is %s, number %s' % (oncall['name'], phone))
+    resp.dial(phone)
     return str(resp)
 
 if __name__ == '__main__':
