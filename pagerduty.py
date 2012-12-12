@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import requests
 
@@ -11,7 +11,7 @@ class Pagerduty(object):
 
     def find_oncall(self, schedule_id):
         params = {'since': datetime.now().isoformat(),
-                  'until': datetime.now().isoformat()
+                  'until': (datetime.now() + timedelta(days=92)).isoformat()
                   }
         return self.session.get('%s/schedules/%s/entries' % (self.API_URL, schedule_id),
                            params=params).json
