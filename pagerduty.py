@@ -2,6 +2,7 @@
 from datetime import datetime, timedelta
 
 import requests
+import settings
 
 class Pagerduty(object):
     def __init__(self, API_URL, API_KEY):
@@ -11,7 +12,8 @@ class Pagerduty(object):
 
     def find_oncall(self, schedule_id):
         params = {'since': datetime.now().isoformat(),
-                  'until': (datetime.now() + timedelta(days=92)).isoformat()
+                  'until': (datetime.now() + timedelta(days=92)).isoformat(),
+                  'time_zone': settings.TIMEZONE
                   }
         return self.session.get('%s/schedules/%s/entries' % (self.API_URL, schedule_id),
                            params=params).json
